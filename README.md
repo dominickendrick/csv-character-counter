@@ -1,7 +1,7 @@
 # csv-character-counter
 This counts all the instances of characters per column in a csv file
 
-#To Run
+## To Run
 
 The simplist way to run is using `sbt`
 
