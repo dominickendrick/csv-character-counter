@@ -22,7 +22,6 @@ First Header|w|1|LATIN SMALL LETTER W
 Second Header|e|1|LATIN SMALL LETTER E
 Second Header|t|2|LATIN SMALL LETTER T
 Second Header|a|4|LATIN SMALL LETTER A
-Second Header| |2|SPACE
 Second Header|r|2|LATIN SMALL LETTER R
 Second Header|d|1|LATIN SMALL LETTER D
 Second Header|c|2|LATIN SMALL LETTER C
@@ -33,7 +32,8 @@ Second Header|h|1|LATIN SMALL LETTER H
 
 The simplist way to run is using `sbt`
 
-The input file should be in csv format with the first row as headers
+The input file should be in csv format with the first row as headers.
+
 The output file should just have the name of the file and no extension, the script will append the current timestamp and `.csv` file extension
 
-`sbt "run -i <input file>  -o <output file>`
+`sbt "run -i <input file>  -o <output file>"`
