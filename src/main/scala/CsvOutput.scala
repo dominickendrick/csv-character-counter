@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 object CsvOutput {
+
+    val headers = List("Field name", "Character", "Occurances", "Character UTF8 Name")
       
     def writeOutput(data: Map[String,Map[Char, Int]], path: String): Unit = {    
         /** 
@@ -22,11 +24,12 @@ object CsvOutput {
         val dateString = getDateAsString(new Date())
 
         val csvOutputData = formatDataAsCsvOutput(data)
+        val csvOutputDataWithHeaders = headers :: csvOutputData
         val outputFile = s"${path}${dateString}.csv"
         
         val fileHandle = new File(outputFile)
         val fileWriter = CSVWriter.open(fileHandle)
-        fileWriter.writeAll(csvOutputData)
+        fileWriter.writeAll(csvOutputDataWithHeaders)
 
         println(s"\nWritten all data to ${outputFile}")
     }
@@ -38,14 +41,14 @@ object CsvOutput {
 
     def formatDataAsCsvOutput(data: Map[String,Map[Char, Int]]): List[List[String]] = {
         data.foldLeft(List.empty[List[String]]){ 
-            case (acc: List[List[String]], (key: String, value: Map[Char, Int])) => {     
+            case (accumulator: List[List[String]], (header: String, value: Map[Char, Int])) => {     
                 val characterEntries = value.toList.map{ 
                     case(char: Char, occurance: Int) => { 
                         val charName = Character.getName(char)
-                        List(key, char.toString(), occurance.toString(), charName) 
+                        List(header, char.toString(), occurance.toString(), charName) 
                     }
                 }
-                acc ++ characterEntries
+                accumulator ++ characterEntries
             }
         }
     }

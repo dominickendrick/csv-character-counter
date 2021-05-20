@@ -4,7 +4,7 @@ object CharacterUtils {
    /**
      * Take an array of characters, and returns them as a Map with each character as the key, and the number of times the character occured as the value
     **/
-    private def charOccurance(charArray: Array[Char]): Map[Char, Int] = {
+    def charOccurance(charArray: Array[Char]): Map[Char, Int] = {
             charArray.toList.groupBy(identity).mapValues(_.size).toMap
     }
 
@@ -36,7 +36,7 @@ object CharacterUtils {
     * This merges together two maps and add the integer values
     * This is to accumulate the occurace values for each character across multiple rows
     **/
-    private def mergeCharacterOccuranceMap (a: Map[Char, Int], b: Map[Char, Int]): scala.collection.immutable.Map[Char, Int] = {
+    def mergeCharacterOccuranceMap (a: Map[Char, Int], b: Map[Char, Int]): scala.collection.immutable.Map[Char, Int] = {
         a ++ b.map{ case(character: Char, occurance: Int) => {
                 (character -> (a.getOrElse(character, 0) + occurance))
             }

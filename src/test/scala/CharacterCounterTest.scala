@@ -13,25 +13,31 @@ class CharacterCounterTest  extends AnyFreeSpec with Matchers {
 
         "should build char array" in {
             val charArray = Array('A','A','b','c','d')
-            CharacterCounter.charOccurance(charArray) should equal(Map('A' -> 2, 'b' -> 1, 'c' -> 1, 'd' -> 1))
+            CharacterUtils.charOccurance(charArray) should equal(Map('A' -> 2, 'b' -> 1, 'c' -> 1, 'd' -> 1))
         }
 
         "should build Map from row" in {
             val data = List("1234asdfvesasdf","45fdf54b-674d-4561-84cf-c1e5da61f4fa")
-            CharacterCounter.buildCharacterSetFromData(data, List("one", "two")) should equal(Map("one" -> HashMap('e' -> 1, 's' -> 3, '4' -> 1, 'f' -> 2, 'a' -> 2, 'v' -> 1, '1' -> 1, '2' -> 1, '3' -> 1, 'd' -> 2), "two" -> HashMap('e' -> 1, '8' -> 1, '4' -> 6, 'f' -> 5, 'a' -> 2, '5' -> 4, '-' -> 4, 'b' -> 1, 'c' -> 2, '7' -> 1, 'd' -> 3, '6' -> 3, '1' -> 3)))
-
-            
+            CharacterUtils.buildCharacterSetFromData(data, List("one", "two")) should equal(Map("one" -> HashMap('e' -> 1, 's' -> 3, '4' -> 1, 'f' -> 2, 'a' -> 2, 'v' -> 1, '1' -> 1, '2' -> 1, '3' -> 1, 'd' -> 2), "two" -> HashMap('e' -> 1, '8' -> 1, '4' -> 6, 'f' -> 5, 'a' -> 2, '5' -> 4, '-' -> 4, 'b' -> 1, 'c' -> 2, '7' -> 1, 'd' -> 3, '6' -> 3, '1' -> 3)))
         }
+
+        "should merge two character occurance maps together" in {
+            val map1 = Map('a' -> 1, 'c' -> 1)
+            val map2 = Map('a' -> 3, 'b' -> 5, 'c' -> 3)
+            CharacterUtils.mergeCharacterOccuranceMap(map1, map2) should equal(Map('a' -> 4, 'c' -> 4, 'b' -> 5))
+        }
+
+        "should merge two field character occurance maps together" in {
+            val map1 = Map("Header1" -> Map('a' -> 1, 'c' -> 1), "Header2" -> Map('a' -> 1))
+            val map2 = Map("Header1" -> Map('a' -> 3, 'b' -> 5, 'c' -> 3), "Header2" -> Map('a' -> 1))
+            CharacterUtils.mergeColumnMaps(map1, map2) should equal(Map("Header1" -> Map('a' -> 4, 'c' -> 4, 'b' -> 5), "Header2" -> Map('a' -> 2)))
+        }
+
+        
 
         "should create csv output" in {
             val data: Map[String, Map[Char, Int]] = Map("test" -> Map('a' -> 1, 'b' -> 2), "anotherrow" -> Map('a' -> 1, 'b' -> 2))
-            CharacterCounter.csvOutput(data) should equal(List(List("test", "a", "1", "LATIN SMALL LETTER A"), List("test", "b", "2", "LATIN SMALL LETTER B"), List("anotherrow", "a", "1", "LATIN SMALL LETTER A"), List("anotherrow", "b", "2", "LATIN SMALL LETTER B")))
-
-
+            CsvOutput.formatDataAsCsvOutput(data) should equal(List(List("test", "a", "1", "LATIN SMALL LETTER A"), List("test", "b", "2", "LATIN SMALL LETTER B"), List("anotherrow", "a", "1", "LATIN SMALL LETTER A"), List("anotherrow", "b", "2", "LATIN SMALL LETTER B")))
         }
-        
     } 
-
-
-  
 }
