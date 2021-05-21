@@ -22,7 +22,7 @@ object CharacterUtils {
     }
 
     /** 
-    * This merges together two maps 
+    * This merges together two maps of headers and their character count maps
     **/
     
     def mergeColumnMaps(a: Map[String, Map[Char, Int]], b: Map[String, Map[Char, Int]] ): Map[String, Map[Char, Int]] = {
