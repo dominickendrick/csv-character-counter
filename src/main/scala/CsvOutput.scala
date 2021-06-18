@@ -9,9 +9,9 @@ import java.util.Date
 
 object CsvOutput {
 
-    val headers = List("Field name", "Character", "Occurances", "Character UTF8 Name")
+    val headers = List("Field name", "Character", "Occurence", "Character Unicode name", "Unicode Codepoint", "UTF-8 Hex value")
       
-    def writeOutput(data: Map[String,Map[Char, Int]], path: String): Unit = {    
+    def writeOutput(data: Map[String,Map[String, Int]], path: String): Unit = {    
         /** 
          * get a string representation of a date
         **/
@@ -36,16 +36,16 @@ object CsvOutput {
 
     /** 
      * outputs data as csv with headers in the format:
-     * field name, character, occurances, character UTF-8 name
+     * field name, character, occurances, character Unicode name, Unicode Codepoint, Utf-8 Hex value
     **/
 
-    def formatDataAsCsvOutput(data: Map[String,Map[Char, Int]]): List[List[String]] = {
+    def formatDataAsCsvOutput(data: Map[String,Map[String, Int]]): List[List[String]] = {
         data.foldLeft(List.empty[List[String]]){ 
-            case (accumulator: List[List[String]], (header: String, value: Map[Char, Int])) => {     
+            case (accumulator: List[List[String]], (header: String, value: Map[String, Int])) => {     
                 val characterEntries = value.toList.map{ 
-                    case(char: Char, occurance: Int) => { 
-                        val charName = Character.getName(char)
-                        List(header, char.toString(), occurance.toString(), charName) 
+                    case(char: String, occurance: Int) => { 
+                        val charName = Character.getName(char.codePointAt(0))
+                        List(header, char.toString(), occurance.toString(), charName, CharacterUtils.charToUnicodeCodepoint(char), CharacterUtils.charToUTF8Hex(char)) 
                     }
                 }
                 accumulator ++ characterEntries

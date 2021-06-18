@@ -77,8 +77,8 @@ object CharacterCounter extends App {
         val headers = csvDataReader.readNext().getOrElse(List.empty)
         
         // This builds the final output data by merging together the results of parsing each line of the csv file
-        val mergeColumnMapsSink: Sink[Map[String,Map[Char,Int]], Future[Map[String,Map[Char,Int]]]] = {
-            Sink.fold[Map[String,Map[Char,Int]], Map[String,Map[Char,Int]]](Map.empty[String,Map[Char,Int]]){(acc, element) => CharacterUtils.mergeColumnMaps(acc, element)}
+        val mergeColumnMapsSink: Sink[Map[String,Map[String,Int]], Future[Map[String,Map[String,Int]]]] = {
+            Sink.fold[Map[String,Map[String,Int]], Map[String,Map[String,Int]]](Map.empty[String,Map[String,Int]]){(acc, element) => CharacterUtils.mergeColumnMaps(acc, element)}
         }
 
         val csvFileCharacterCountingStream = FileIO.fromPath(Paths.get(config.input))
